@@ -24,7 +24,7 @@
 
     <main id="inicio">
         <h2>¡Bienvenida a JUSE Home Deco!</h2>
-        <p>Administrá tus productos, stock, clientes, pedidos y ventas desde un solo lugar.</p>
+        <p>Administrá tu emprendimiento desde un solo lugar.</p>
 
         <section class="paneles">
             <article class="panel">
@@ -54,10 +54,76 @@
         </section>
     </main>
 
+    <section id="productos" class="seccion">
+        <h2>Gestión de productos</h2>
+        <p>Registrá y administrá los productos de JUSE Home Deco.</p>
+
+        <form id="product-form">
+            <input type="text" id="nombre" placeholder="Nombre del producto" required>
+
+            <input type="text" id="descripcion" placeholder="Descripción">
+
+            <select id="categoria" required>
+                <option value="">Seleccionar categoría</option>
+                <option value="Bazar">Bazar</option>
+                <option value="Decoración">Decoración</option>
+                <option value="Blanquería">Blanquería</option>
+                <option value="Otros">Otros</option>
+            </select>
+
+            <input type="number" id="precio" placeholder="Precio" min="0" step="0.01" required>
+
+            <input type="number" id="stock" placeholder="Cantidad disponible" min="0" step="1" required>
+
+            <button type="submit" id="boton-guardar">Guardar producto</button>
+        </form>
+
+        <h3>Listado de productos</h3>
+
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Descripción</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody id="product-list">
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="stock" class="seccion">
+        <h2>Control de stock</h2>
+        <p>Próximamente podrás consultar y actualizar las existencias.</p>
+    </section>
+
+    <section id="clientes" class="seccion">
+        <h2>Gestión de clientes</h2>
+        <p>Próximamente podrás registrar tus clientes.</p>
+    </section>
+
+    <section id="pedidos" class="seccion">
+        <h2>Gestión de pedidos</h2>
+        <p>Próximamente podrás administrar tus pedidos.</p>
+    </section>
+
+    <section id="ventas" class="seccion">
+        <h2>Registro de ventas</h2>
+        <p>Próximamente podrás consultar tus ventas.</p>
+    </section>
+
     <footer>
         <p>JUSE Home Deco © 2026</p>
     </footer>
 
     <script src="script.js"></script>
+
 </body>
 </html>
