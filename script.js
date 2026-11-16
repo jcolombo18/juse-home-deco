@@ -1,4 +1,5 @@
-​const formulario = document.getElementById("product-form");
+
+const formulario = document.getElementById("product-form");
 const listaProductos = document.getElementById("product-list");
 const botonGuardar = document.getElementById("boton-guardar");
 
@@ -50,6 +51,10 @@ function mostrarProductos() {
 formulario.addEventListener("submit", function(evento) {
     evento.preventDefault();
 
+    // Guardar la posición actual de desplazamiento
+    const posicionVertical = window.scrollY;
+    const posicionHorizontal = window.scrollX;
+
     const producto = {
         nombre: document.getElementById("nombre").value,
         descripcion: document.getElementById("descripcion").value,
@@ -73,6 +78,11 @@ formulario.addEventListener("submit", function(evento) {
     botonGuardar.textContent = "Guardar producto";
 
     mostrarProductos();
+
+    // Recuperar la posición después de actualizar la lista
+    requestAnimationFrame(() => {
+        window.scrollTo(posicionHorizontal, posicionVertical);
+    });
 });
 
 // Cargar los datos del producto en el formulario
@@ -110,3 +120,4 @@ function eliminarProducto(indice) {
 
 // Mostrar los productos guardados al abrir la página
 mostrarProductos();
+
