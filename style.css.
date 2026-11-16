@@ -217,3 +217,25 @@ footer {
         min-width: 650px;
     }
 }
+/* COLORES DEL CONTROL DE STOCK */
+
+.estado-stock {
+    font-weight: bold;
+    text-align: center;
+    border-radius: 6px;
+}
+
+.estado-stock.disponible {
+    color: #237a3b;
+    background-color: #e2f4e6;
+}
+
+.estado-stock.stock-bajo {
+    color: #9a6900;
+    background-color: #fff1c7;
+}
+
+.estado-stock.sin-stock {
+    color: #b42318;
+    background-color: #fde5e3;
+}
