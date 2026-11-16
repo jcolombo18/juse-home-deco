@@ -1,31 +1,52 @@
-const formulario = document.getElementById("product-form");
+​const formulario = document.getElementById("product-form");
 const listaProductos = document.getElementById("product-list");
+const botonGuardar = document.getElementById("boton-guardar");
 
 let productos = JSON.parse(localStorage.getItem("productos")) || [];
+let indiceEdicion = null;
 
+// Mostrar productos en la tabla
 function mostrarProductos() {
     listaProductos.innerHTML = "";
 
     productos.forEach((producto, indice) => {
         const fila = document.createElement("tr");
 
-        fila.innerHTML = `
-            <td>${producto.nombre}</td>
-            <td>${producto.descripcion}</td>
-            <td>${producto.categoria}</td>
-            <td>$${producto.precio}</td>
-            <td>${producto.stock}</td>
-            <td>
-                <button onclick="eliminarProducto(${indice})">
-                    Eliminar
-                </button>
-            </td>
-        `;
+        const datos = [
+            producto.nombre,
+            producto.descripcion,
+            producto.categoria,
+            "$" + producto.precio,
+            producto.stock
+        ];
+
+        datos.forEach(dato => {
+            const celda = document.createElement("td");
+            celda.textContent = dato;
+            fila.appendChild(celda);
+        });
+
+        const acciones = document.createElement("td");
+
+        const botonEditar = document.createElement("button");
+        botonEditar.textContent = "Editar";
+        botonEditar.type = "button";
+        botonEditar.addEventListener("click", () => editarProducto(indice));
+
+        const botonEliminar = document.createElement("button");
+        botonEliminar.textContent = "Eliminar";
+        botonEliminar.type = "button";
+        botonEliminar.addEventListener("click", () => eliminarProducto(indice));
+
+        acciones.appendChild(botonEditar);
+        acciones.appendChild(botonEliminar);
+        fila.appendChild(acciones);
 
         listaProductos.appendChild(fila);
     });
 }
 
+// Guardar un producto nuevo o actualizar uno existente
 formulario.addEventListener("submit", function(evento) {
     evento.preventDefault();
 
@@ -37,23 +58,55 @@ formulario.addEventListener("submit", function(evento) {
         stock: document.getElementById("stock").value
     };
 
-    productos.push(producto);
+    if (indiceEdicion === null) {
+        productos.push(producto);
+        alert("¡Producto guardado correctamente!");
+    } else {
+        productos[indiceEdicion] = producto;
+        alert("¡Producto actualizado correctamente!");
+    }
 
     localStorage.setItem("productos", JSON.stringify(productos));
 
-    mostrarProductos();
-
     formulario.reset();
+    indiceEdicion = null;
+    botonGuardar.textContent = "Guardar producto";
 
-    alert("¡Producto guardado correctamente!");
+    mostrarProductos();
 });
 
+// Cargar los datos del producto en el formulario
+function editarProducto(indice) {
+    const producto = productos[indice];
+
+    document.getElementById("nombre").value = producto.nombre;
+    document.getElementById("descripcion").value = producto.descripcion;
+    document.getElementById("categoria").value = producto.categoria;
+    document.getElementById("precio").value = producto.precio;
+    document.getElementById("stock").value = producto.stock;
+
+    indiceEdicion = indice;
+    botonGuardar.textContent = "Actualizar producto";
+
+    document.getElementById("productos").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+// Eliminar un producto
 function eliminarProducto(indice) {
     productos.splice(indice, 1);
 
     localStorage.setItem("productos", JSON.stringify(productos));
 
+    if (indiceEdicion !== null) {
+        formulario.reset();
+        indiceEdicion = null;
+        botonGuardar.textContent = "Guardar producto";
+    }
+
     mostrarProductos();
 }
 
+// Mostrar los productos guardados al abrir la página
 mostrarProductos();
