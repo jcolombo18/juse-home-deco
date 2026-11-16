@@ -3,6 +3,10 @@ const formulario = document.getElementById("product-form");
 const listaProductos = document.getElementById("product-list");
 const botonGuardar = document.getElementById("boton-guardar");
 
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
+
 let productos = JSON.parse(localStorage.getItem("productos")) || [];
 let indiceEdicion = null;
 
@@ -81,7 +85,10 @@ formulario.addEventListener("submit", function(evento) {
 
     // Recuperar la posición después de actualizar la lista
     requestAnimationFrame(() => {
-        window.scrollTo(posicionHorizontal, posicionVertical);
+    window.scrollTo({
+        top: posicionVertical,
+        left: posicionHorizontal,
+        behavior: "instant"
     });
 });
 
