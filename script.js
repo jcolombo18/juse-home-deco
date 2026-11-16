@@ -114,11 +114,16 @@ formulario.addEventListener("submit", function(evento) {
     mostrarProductos();
 
     // Recuperar la posición después de actualizar la lista
+     mostrarProductos();
+    mostrarStock();
+
+    // Recuperar la posición después de actualizar la lista
     requestAnimationFrame(() => {
-    window.scrollTo({
-        top: posicionVertical,
-        left: posicionHorizontal,
-        behavior: "instant"
+        window.scrollTo({
+            top: posicionVertical,
+            left: posicionHorizontal,
+            behavior: "instant"
+        });
     });
 });
 
@@ -158,4 +163,5 @@ function eliminarProducto(indice) {
 
 // Mostrar los productos guardados al abrir la página
 mostrarProductos();
+mostrarStock();
 
