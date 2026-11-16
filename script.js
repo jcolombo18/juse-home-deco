@@ -1,87 +1,129 @@
-// SISTEMA DE GESTION JUSE HOME DECO
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUSE Home Deco | Sistema de Gestión</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-// Recuperar productos guardados
-let productos = JSON.parse(localStorage.getItem("productos")) || [];
+    <header>
+        <h1>JUSE HOME DECO</h1>
+        <p>Sistema de gestión</p>
+    </header>
 
-// Obtener elementos del formulario
-const formulario = document.getElementById("product-form");
-const listaProductos = document.getElementById("product-list");
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#productos">Productos</a>
+        <a href="#stock">Stock</a>
+        <a href="#clientes">Clientes</a>
+        <a href="#pedidos">Pedidos</a>
+        <a href="#ventas">Ventas</a>
+    </nav>
 
-// Mostrar productos en la tabla
-function mostrarProductos() {
-    listaProductos.innerHTML = "";
+    <main id="inicio">
+        <h2>¡Bienvenida a JUSE Home Deco!</h2>
+        <p>Administrá tu emprendimiento desde un solo lugar.</p>
 
-    productos.forEach(function(producto, indice) {
-        const fila = document.createElement("tr");
+        <section class="paneles">
+            <article class="panel">
+                <h3>Productos</h3>
+                <p>Gestión del catálogo de productos.</p>
+            </article>
 
-        fila.innerHTML = `
-            <td>${producto.nombre}</td>
-            <td>${producto.descripcion}</td>
-            <td>${producto.categoria}</td>
-            <td>$ ${Number(producto.precio).toFixed(2)}</td>
-            <td>${producto.stock}</td>
-            <td>
-                <button onclick="editarProducto(${indice})">Editar</button>
-                <button onclick="eliminarProducto(${indice})">Eliminar</button>
-            </td>
-        `;
+            <article class="panel">
+                <h3>Stock</h3>
+                <p>Control de cantidades disponibles.</p>
+            </article>
 
-        listaProductos.appendChild(fila);
-    });
-}
+            <article class="panel">
+                <h3>Clientes</h3>
+                <p>Registro de información de clientes.</p>
+            </article>
 
-// Guardar productos
-formulario.addEventListener("submit", function(evento) {
-    evento.preventDefault();
+            <article class="panel">
+                <h3>Pedidos</h3>
+                <p>Organización y seguimiento de pedidos.</p>
+            </article>
 
-    const producto = {
-        nombre: document.getElementById("nombre").value.trim(),
-        descripcion: document.getElementById("descripcion").value.trim(),
-        categoria: document.getElementById("categoria").value,
-        precio: Number(document.getElementById("precio").value),
-        stock: Number(document.getElementById("stock").value)
-    };
+            <article class="panel">
+                <h3>Ventas</h3>
+                <p>Registro e historial de ventas.</p>
+            </article>
+        </section>
+    </main>
 
-    productos.push(producto);
+    <section id="productos" class="seccion">
+        <h2>Gestión de productos</h2>
+        <p>Registrá y administrá los productos de JUSE Home Deco.</p>
 
-    localStorage.setItem("productos", JSON.stringify(productos));
+        <form id="product-form">
+            <input type="text" id="nombre" placeholder="Nombre del producto" required>
 
-    formulario.reset();
+            <input type="text" id="descripcion" placeholder="Descripción">
 
-    mostrarProductos();
+            <select id="categoria" required>
+                <option value="">Seleccionar categoría</option>
+                <option value="Bazar">Bazar</option>
+                <option value="Decoración">Decoración</option>
+                <option value="Blanquería">Blanquería</option>
+                <option value="Otros">Otros</option>
+            </select>
 
-    alert("¡Producto agregado correctamente!");
-});
+            <input type="number" id="precio" placeholder="Precio" min="0" step="0.01" required>
 
-// Eliminar productos
-function eliminarProducto(indice) {
-    if (confirm("¿Querés eliminar este producto?")) {
-        productos.splice(indice, 1);
+            <input type="number" id="stock" placeholder="Cantidad disponible" min="0" step="1" required>
 
-        localStorage.setItem("productos", JSON.stringify(productos));
+            <button type="submit" id="boton-guardar">Guardar producto</button>
+        </form>
 
-        mostrarProductos();
-    }
-}
+        <h3>Listado de productos</h3>
 
-// Editar productos
-function editarProducto(indice) {
-    const producto = productos[indice];
+        <div class="tabla-contenedor">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Descripción</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
 
-    document.getElementById("nombre").value = producto.nombre;
-    document.getElementById("descripcion").value = producto.descripcion;
-    document.getElementById("categoria").value = producto.categoria;
-    document.getElementById("precio").value = producto.precio;
-    document.getElementById("stock").value = producto.stock;
+                <tbody id="product-list">
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    productos.splice(indice, 1);
+    <section id="stock" class="seccion">
+        <h2>Control de stock</h2>
+        <p>Próximamente podrás consultar y actualizar las existencias.</p>
+    </section>
 
-    localStorage.setItem("productos", JSON.stringify(productos));
+    <section id="clientes" class="seccion">
+        <h2>Gestión de clientes</h2>
+        <p>Próximamente podrás registrar tus clientes.</p>
+    </section>
 
-    mostrarProductos();
+    <section id="pedidos" class="seccion">
+        <h2>Gestión de pedidos</h2>
+        <p>Próximamente podrás administrar tus pedidos.</p>
+    </section>
 
-    document.getElementById("nombre").focus();
-}
+    <section id="ventas" class="seccion">
+        <h2>Registro de ventas</h2>
+        <p>Próximamente podrás consultar tus ventas.</p>
+    </section>
 
-// Mostrar los productos al abrir la página
-mostrarProductos();
+    <footer>
+        <p>JUSE Home Deco © 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
