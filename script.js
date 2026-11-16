@@ -153,6 +153,7 @@ function eliminarProducto(indice) {
     }
 
     mostrarProductos();
+    mostrarStock();
 }
 
 // Mostrar los productos guardados al abrir la página
