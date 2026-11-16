@@ -52,15 +52,18 @@ function mostrarProductos() {
 }
 
 // MOSTRAR CONTROL DE STOCK
+// Mostrar el control de stock
 function mostrarStock() {
     listaStock.innerHTML = "";
 
     productos.forEach(producto => {
         const fila = document.createElement("tr");
 
-        const estado = Number(producto.stock) === 0
+        const cantidad = Number(producto.stock);
+
+        const estado = cantidad === 0
             ? "Sin stock"
-            : Number(producto.stock) <= 5
+            : cantidad <= 5
                 ? "Stock bajo"
                 : "Disponible";
 
@@ -77,6 +80,14 @@ function mostrarStock() {
             celda.textContent = dato;
             fila.appendChild(celda);
         });
+
+        const claseEstado = cantidad === 0
+            ? "sin-stock"
+            : cantidad <= 5
+                ? "stock-bajo"
+                : "disponible";
+
+        fila.lastElementChild.classList.add("estado-stock", claseEstado);
 
         listaStock.appendChild(fila);
     });
