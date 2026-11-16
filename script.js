@@ -1,7 +1,7 @@
-
 const formulario = document.getElementById("product-form");
 const listaProductos = document.getElementById("product-list");
 const botonGuardar = document.getElementById("boton-guardar");
+const listaStock = document.getElementById("stock-list");
 
 if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
@@ -51,6 +51,36 @@ function mostrarProductos() {
     });
 }
 
+// MOSTRAR CONTROL DE STOCK
+function mostrarStock() {
+    listaStock.innerHTML = "";
+
+    productos.forEach(producto => {
+        const fila = document.createElement("tr");
+
+        const estado = Number(producto.stock) === 0
+            ? "Sin stock"
+            : Number(producto.stock) <= 5
+                ? "Stock bajo"
+                : "Disponible";
+
+        const datos = [
+            producto.nombre,
+            producto.categoria,
+            "$" + producto.precio,
+            producto.stock,
+            estado
+        ];
+
+        datos.forEach(dato => {
+            const celda = document.createElement("td");
+            celda.textContent = dato;
+            fila.appendChild(celda);
+        });
+
+        listaStock.appendChild(fila);
+    });
+}
 // Guardar un producto nuevo o actualizar uno existente
 formulario.addEventListener("submit", function(evento) {
     evento.preventDefault();
