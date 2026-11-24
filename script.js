@@ -8,6 +8,12 @@ const formularioClientes = document.getElementById("client-form");
 const listaClientes = document.getElementById("client-list");
 const botonGuardarCliente = document.getElementById("boton-guardar-cliente");
 
+// ELEMENTOS DE GESTIÓN DE PEDIDOS
+const formularioPedidos = document.getElementById("order-form");
+const listaPedidos = document.getElementById("order-list");
+const selectorClientePedido = document.getElementById("pedido-cliente");
+const botonGuardarPedido = document.getElementById("boton-guardar-pedido");
+
 if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
 }
@@ -18,6 +24,9 @@ let indiceEdicion = null;
 // DATOS DE CLIENTES
 let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
 let indiceEdicionCliente = null;
+// DATOS DE PEDIDOS
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+let indiceEdicionPedido = null;
 
 // Mostrar productos en la tabla
 function mostrarProductos() {
