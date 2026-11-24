@@ -162,10 +162,53 @@
 </section>
 
 
-    <section id="pedidos" class="seccion">
-        <h2>Gestión de pedidos</h2>
-        <p>Próximamente podrás administrar tus pedidos.</p>
-    </section>
+    
+<section id="pedidos" class="seccion">
+    <h2>Gestión de pedidos</h2>
+    <p>Registrá y administrá los pedidos de tus clientes.</p>
+
+    <form id="order-form">
+        <label for="pedido-cliente">Cliente:</label>
+        <select id="pedido-cliente" required>
+            <option value="">Seleccioná un cliente</option>
+        </select>
+
+        <label for="pedido-descripcion">Descripción del pedido:</label>
+        <input type="text" id="pedido-descripcion" required>
+
+        <label for="pedido-fecha">Fecha del pedido:</label>
+        <input type="date" id="pedido-fecha" required>
+
+        <label for="pedido-estado">Estado del pedido:</label>
+        <select id="pedido-estado" required>
+            <option value="Pendiente">Pendiente</option>
+            <option value="En preparación">En preparación</option>
+            <option value="Entregado">Entregado</option>
+        </select>
+
+        <button type="submit" id="boton-guardar-pedido">
+            Guardar pedido
+        </button>
+    </form>
+
+    <h3>Pedidos registrados</h3>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="order-list"></tbody>
+        </table>
+    </div>
+</section>
+
 
     <section id="ventas" class="seccion">
         <h2>Registro de ventas</h2>
