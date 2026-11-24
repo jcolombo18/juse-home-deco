@@ -207,13 +207,52 @@
             <tbody id="order-list"></tbody>
         </table>
     </div>
+
+<section id="ventas" class="seccion">
+    <h2>Registro de ventas</h2>
+    <p>Registrá las ventas de JUSE Home Deco y consultá su historial.</p>
+
+    <form id="sales-form">
+        <label for="venta-cliente">Cliente:</label>
+        <select id="venta-cliente" required>
+            <option value="">Seleccioná un cliente</option>
+        </select>
+
+        <label for="venta-producto">Producto:</label>
+        <select id="venta-producto" required>
+            <option value="">Seleccioná un producto</option>
+        </select>
+
+        <label for="venta-cantidad">Cantidad:</label>
+        <input type="number" id="venta-cantidad" min="1" required>
+
+        <label for="venta-fecha">Fecha de venta:</label>
+        <input type="date" id="venta-fecha" required>
+
+        <button type="submit" id="boton-guardar-venta">
+            Registrar venta
+        </button>
+    </form>
+
+    <h3>Historial de ventas</h3>
+
+    <div class="tabla-contenedor">
+        <table>
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio unitario</th>
+                    <th>Total</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody id="sales-list"></tbody>
+        </table>
+    </div>
 </section>
 
-
-    <section id="ventas" class="seccion">
-        <h2>Registro de ventas</h2>
-        <p>Próximamente podrás consultar tus ventas.</p>
-    </section>
 
     <footer>
         <p>JUSE Home Deco © 2026</p>
