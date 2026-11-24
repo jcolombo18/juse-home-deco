@@ -432,3 +432,123 @@ function eliminarPedido(indice) {
 // MOSTRAR LOS PEDIDOS Y CLIENTES GUARDADOS AL ABRIR LA PÁGINA
 actualizarSelectorClientes();
 mostrarPedidos();
+// ACTUALIZAR LOS SELECTORES DE VENTAS
+function actualizarSelectoresVentas() {
+    selectorClienteVenta.innerHTML = '<option value="">Seleccioná un cliente</option>';
+
+    clientes.forEach((cliente, indice) => {
+        const opcion = document.createElement("option");
+        opcion.value = indice;
+        opcion.textContent = cliente.nombre;
+        selectorClienteVenta.appendChild(opcion);
+    });
+
+    selectorProductoVenta.innerHTML = '<option value="">Seleccioná un producto</option>';
+
+    productos.forEach((producto, indice) => {
+        const opcion = document.createElement("option");
+        opcion.value = indice;
+        opcion.textContent = producto.nombre;
+        selectorProductoVenta.appendChild(opcion);
+    });
+}
+
+// CARGAR LOS CLIENTES Y PRODUCTOS AL ABRIR LA PÁGINA
+actualizarSelectoresVentas();
+
+// MOSTRAR EL HISTORIAL DE VENTAS
+function mostrarVentas() {
+    listaVentas.innerHTML = "";
+
+    ventas.forEach(venta => {
+        const fila = document.createElement("tr");
+
+        const datos = [
+            venta.cliente,
+            venta.producto,
+            venta.cantidad,
+            "$" + Number(venta.precioUnitario).toFixed(2),
+            "$" + Number(venta.total).toFixed(2),
+            venta.fecha
+        ];
+
+        datos.forEach(dato => {
+            const celda = document.createElement("td");
+            celda.textContent = dato;
+            fila.appendChild(celda);
+        });
+
+        listaVentas.appendChild(fila);
+    });
+}
+
+// REGISTRAR UNA VENTA Y DESCONTAR EL STOCK
+formularioVentas.addEventListener("submit", function(evento) {
+    evento.preventDefault();
+
+    const indiceCliente = selectorClienteVenta.value;
+    const indiceProducto = selectorProductoVenta.value;
+    const cantidad = Number(document.getElementById("venta-cantidad").value);
+    const fecha = document.getElementById("venta-fecha").value;
+
+    if (indiceCliente === "" || indiceProducto === "") {
+        alert("Seleccioná un cliente y un producto.");
+        return;
+    }
+
+    if (!Number.isInteger(cantidad) || cantidad <= 0) {
+        alert("Ingresá una cantidad válida.");
+        return;
+    }
+
+    const cliente = clientes[Number(indiceCliente)];
+    const producto = productos[Number(indiceProducto)];
+
+    if (!cliente || !producto) {
+        alert("No se encontró el cliente o el producto seleccionado.");
+        return;
+    }
+
+    const stockActual = Number(producto.stock);
+
+    if (cantidad > stockActual) {
+        alert("No hay suficiente stock para realizar esta venta.");
+        return;
+    }
+
+    const precioUnitario = Number(producto.precio);
+
+    if (!Number.isFinite(precioUnitario) || precioUnitario < 0) {
+        alert("El precio del producto no es válido.");
+        return;
+    }
+
+    const total = precioUnitario * cantidad;
+
+    const venta = {
+        cliente: cliente.nombre,
+        producto: producto.nombre,
+        cantidad: cantidad,
+        precioUnitario: precioUnitario,
+        total: total,
+        fecha: fecha
+    };
+
+    ventas.push(venta);
+
+    producto.stock = stockActual - cantidad;
+
+    localStorage.setItem("ventas", JSON.stringify(ventas));
+    localStorage.setItem("productos", JSON.stringify(productos));
+
+    formularioVentas.reset();
+
+    mostrarVentas();
+    mostrarProductos();
+    mostrarStock();
+
+    alert("¡Venta registrada correctamente! El stock fue actualizado.");
+});
+
+// MOSTRAR LAS VENTAS GUARDADAS AL ABRIR LA PÁGINA
+mostrarVentas();
