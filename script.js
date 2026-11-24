@@ -3,12 +3,21 @@ const listaProductos = document.getElementById("product-list");
 const botonGuardar = document.getElementById("boton-guardar");
 const listaStock = document.getElementById("stock-list");
 
+// ELEMENTOS DE GESTIÓN DE CLIENTES
+const formularioClientes = document.getElementById("client-form");
+const listaClientes = document.getElementById("client-list");
+const botonGuardarCliente = document.getElementById("boton-guardar-cliente");
+
 if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
 }
 
 let productos = JSON.parse(localStorage.getItem("productos")) || [];
 let indiceEdicion = null;
+
+// DATOS DE CLIENTES
+let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+let indiceEdicionCliente = null;
 
 // Mostrar productos en la tabla
 function mostrarProductos() {
