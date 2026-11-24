@@ -298,3 +298,127 @@ function eliminarCliente(indice) {
 // MOSTRAR LOS CLIENTES GUARDADOS AL ABRIR LA PÁGINA
 mostrarClientes();
 
+// ACTUALIZAR EL SELECTOR DE CLIENTES PARA PEDIDOS
+function actualizarSelectorClientes() {
+    selectorClientePedido.innerHTML = '<option value="">Seleccioná un cliente</option>';
+
+    clientes.forEach((cliente, indice) => {
+        const opcion = document.createElement("option");
+        opcion.value = indice;
+        opcion.textContent = cliente.nombre;
+        selectorClientePedido.appendChild(opcion);
+    });
+}
+
+// MOSTRAR LOS PEDIDOS
+function mostrarPedidos() {
+    listaPedidos.innerHTML = "";
+
+    pedidos.forEach((pedido, indice) => {
+        const fila = document.createElement("tr");
+
+        const datos = [
+            pedido.cliente,
+            pedido.descripcion,
+            pedido.fecha,
+            pedido.estado
+        ];
+
+        datos.forEach(dato => {
+            const celda = document.createElement("td");
+            celda.textContent = dato;
+            fila.appendChild(celda);
+        });
+
+        const celdaAcciones = document.createElement("td");
+
+        const botonEditar = document.createElement("button");
+        botonEditar.textContent = "Editar";
+        botonEditar.addEventListener("click", () => editarPedido(indice));
+
+        const botonEliminar = document.createElement("button");
+        botonEliminar.textContent = "Eliminar";
+        botonEliminar.addEventListener("click", () => eliminarPedido(indice));
+
+        celdaAcciones.appendChild(botonEditar);
+        celdaAcciones.appendChild(botonEliminar);
+
+        fila.appendChild(celdaAcciones);
+        listaPedidos.appendChild(fila);
+    });
+}
+
+// GUARDAR UN PEDIDO NUEVO O ACTUALIZAR UNO EXISTENTE
+formularioPedidos.addEventListener("submit", function(evento) {
+    evento.preventDefault();
+
+    const indiceCliente = selectorClientePedido.value;
+
+    if (indiceCliente === "") {
+        alert("Seleccioná un cliente para el pedido.");
+        return;
+    }
+
+    const pedido = {
+        cliente: clientes[indiceCliente].nombre,
+        descripcion: document.getElementById("pedido-descripcion").value,
+        fecha: document.getElementById("pedido-fecha").value,
+        estado: document.getElementById("pedido-estado").value
+    };
+
+    if (indiceEdicionPedido === null) {
+        pedidos.push(pedido);
+        alert("¡Pedido guardado correctamente!");
+    } else {
+        pedidos[indiceEdicionPedido] = pedido;
+        alert("¡Pedido actualizado correctamente!");
+    }
+
+    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
+    formularioPedidos.reset();
+    indiceEdicionPedido = null;
+    botonGuardarPedido.textContent = "Guardar pedido";
+
+    mostrarPedidos();
+});
+
+// EDITAR UN PEDIDO
+function editarPedido(indice) {
+    const pedido = pedidos[indice];
+
+    const indiceCliente = clientes.findIndex(
+        cliente => cliente.nombre === pedido.cliente
+    );
+
+    selectorClientePedido.value = indiceCliente;
+    document.getElementById("pedido-descripcion").value = pedido.descripcion;
+    document.getElementById("pedido-fecha").value = pedido.fecha;
+    document.getElementById("pedido-estado").value = pedido.estado;
+
+    indiceEdicionPedido = indice;
+    botonGuardarPedido.textContent = "Actualizar pedido";
+
+    formularioPedidos.scrollIntoView({ behavior: "smooth" });
+}
+
+// ELIMINAR UN PEDIDO
+function eliminarPedido(indice) {
+    if (!confirm("¿Estás segura de que querés eliminar este pedido?")) {
+        return;
+    }
+
+    pedidos.splice(indice, 1);
+
+    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+
+    formularioPedidos.reset();
+    indiceEdicionPedido = null;
+    botonGuardarPedido.textContent = "Guardar pedido";
+
+    mostrarPedidos();
+}
+
+// MOSTRAR LOS PEDIDOS Y CLIENTES GUARDADOS AL ABRIR LA PÁGINA
+actualizarSelectorClientes();
+mostrarPedidos();
