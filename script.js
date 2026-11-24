@@ -231,6 +231,7 @@ function mostrarClientes() {
         fila.appendChild(celdaAcciones);
         listaClientes.appendChild(fila);
     });
+    actualizarSelectorClientes();
 }
 
 // GUARDAR UN CLIENTE NUEVO O ACTUALIZAR UNO EXISTENTE
