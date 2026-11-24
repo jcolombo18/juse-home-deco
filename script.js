@@ -14,6 +14,13 @@ const listaPedidos = document.getElementById("order-list");
 const selectorClientePedido = document.getElementById("pedido-cliente");
 const botonGuardarPedido = document.getElementById("boton-guardar-pedido");
 
+// ELEMENTOS DE REGISTRO DE VENTAS
+const formularioVentas = document.getElementById("sales-form");
+const listaVentas = document.getElementById("sales-list");
+const selectorClienteVenta = document.getElementById("venta-cliente");
+const selectorProductoVenta = document.getElementById("venta-producto");
+const botonGuardarVenta = document.getElementById("boton-guardar-venta");
+
 if ("scrollRestoration" in history) {
     history.scrollRestoration = "manual";
 }
