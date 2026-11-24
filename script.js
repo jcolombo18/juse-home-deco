@@ -185,3 +185,107 @@ function eliminarProducto(indice) {
 mostrarProductos();
 mostrarStock();
 
+
+// MOSTRAR LOS CLIENTES
+function mostrarClientes() {
+    listaClientes.innerHTML = "";
+
+    clientes.forEach((cliente, indice) => {
+        const fila = document.createElement("tr");
+
+        const datos = [
+            cliente.nombre,
+            cliente.telefono,
+            cliente.email,
+            cliente.direccion
+        ];
+
+        datos.forEach(dato => {
+            const celda = document.createElement("td");
+            celda.textContent = dato;
+            fila.appendChild(celda);
+        });
+
+        const celdaAcciones = document.createElement("td");
+
+        const botonEditar = document.createElement("button");
+        botonEditar.textContent = "Editar";
+        botonEditar.addEventListener("click", () => editarCliente(indice));
+
+        const botonEliminar = document.createElement("button");
+        botonEliminar.textContent = "Eliminar";
+        botonEliminar.addEventListener("click", () => eliminarCliente(indice));
+
+        celdaAcciones.appendChild(botonEditar);
+        celdaAcciones.appendChild(botonEliminar);
+
+        fila.appendChild(celdaAcciones);
+        listaClientes.appendChild(fila);
+    });
+}
+
+// GUARDAR UN CLIENTE NUEVO O ACTUALIZAR UNO EXISTENTE
+formularioClientes.addEventListener("submit", function(evento) {
+    evento.preventDefault();
+
+    const cliente = {
+        nombre: document.getElementById("cliente-nombre").value,
+        telefono: document.getElementById("cliente-telefono").value,
+        email: document.getElementById("cliente-email").value,
+        direccion: document.getElementById("cliente-direccion").value
+    };
+
+    if (indiceEdicionCliente === null) {
+        clientes.push(cliente);
+        alert("¡Cliente guardado correctamente!");
+    } else {
+        clientes[indiceEdicionCliente] = cliente;
+        alert("¡Cliente actualizado correctamente!");
+    }
+
+    localStorage.setItem("clientes", JSON.stringify(clientes));
+
+    formularioClientes.reset();
+    indiceEdicionCliente = null;
+    botonGuardarCliente.textContent = "Guardar cliente";
+
+    mostrarClientes();
+});
+
+// EDITAR UN CLIENTE
+function editarCliente(indice) {
+    const cliente = clientes[indice];
+
+    document.getElementById("cliente-nombre").value = cliente.nombre;
+    document.getElementById("cliente-telefono").value = cliente.telefono;
+    document.getElementById("cliente-email").value = cliente.email;
+    document.getElementById("cliente-direccion").value = cliente.direccion;
+
+    indiceEdicionCliente = indice;
+    botonGuardarCliente.textContent = "Actualizar cliente";
+
+    formularioClientes.scrollIntoView({ behavior: "smooth" });
+}
+
+// ELIMINAR UN CLIENTE
+function eliminarCliente(indice) {
+    if (!confirm("¿Estás segura de que querés eliminar este cliente?")) {
+        return;
+    }
+
+    clientes.splice(indice, 1);
+
+    localStorage.setItem("clientes", JSON.stringify(clientes));
+
+    if (indiceEdicionCliente !== null) {
+        formularioClientes.reset();
+        indiceEdicionCliente = null;
+        botonGuardarCliente.textContent = "Guardar cliente";
+    }
+
+    mostrarClientes();
+}
+
+// MOSTRAR LOS CLIENTES GUARDADOS AL ABRIR LA PÁGINA
+mostrarClientes();
+
