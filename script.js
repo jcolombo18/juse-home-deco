@@ -34,6 +34,8 @@ let indiceEdicionCliente = null;
 // DATOS DE PEDIDOS
 let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
 let indiceEdicionPedido = null;
+// DATOS DE VENTAS
+let ventas = JSON.parse(localStorage.getItem("ventas")) || [];
 
 // Mostrar productos en la tabla
 function mostrarProductos() {
